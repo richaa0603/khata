@@ -9,4 +9,8 @@ public class BuyerProductPricing
     public int ProductId { get; set; }
 
     public decimal CustomPrice { get; set; }
+
+    public Buyer? Buyer { get; set; }
+
+    public Product? Product { get; set; }
 }

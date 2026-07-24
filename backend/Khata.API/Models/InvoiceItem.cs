@@ -13,4 +13,8 @@ public class InvoiceItem
     public decimal Rate { get; set; }
 
     public decimal Amount { get; set; }
+
+    public Invoice? Invoice { get; set; }
+
+    public Product? Product { get; set; }
 }

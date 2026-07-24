@@ -164,3 +164,6 @@ C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\obj\Debug\net9.0\refint\Kha
 C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\obj\Debug\net9.0\Khata.API.pdb
 C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\obj\Debug\net9.0\Khata.API.genruntimeconfig.cache
 C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\obj\Debug\net9.0\ref\Khata.API.dll
+C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\bin\Debug\net9.0\Npgsql.dll
+C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\RichaBharti\Desktop\khata\backend\Khata.API\obj\Debug\net9.0\Khata.API.sourcelink.json

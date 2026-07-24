@@ -4,5 +4,5 @@ public class Category
 {
     public int Id { get; set; }
 
-    public string CategoryName { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 }

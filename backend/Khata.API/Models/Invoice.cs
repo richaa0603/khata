@@ -4,13 +4,13 @@ public class Invoice
 {
     public int Id { get; set; }
 
-    public string? InvoiceNumber { get; set; }
-
-    public DateTime InvoiceDate { get; set; }
+    public string InvoiceNumber { get; set; } = string.Empty;
 
     public int BuyerId { get; set; }
 
     public int ShopkeeperId { get; set; }
+
+    public DateTime InvoiceDate { get; set; }
 
     public decimal SubTotal { get; set; }
 
@@ -20,7 +20,7 @@ public class Invoice
 
     public decimal GrandTotal { get; set; }
 
-    public string? BuyerSignature { get; set; }
+    public Buyer? Buyer { get; set; }
 
-    public string? ShopkeeperSignature { get; set; }
+    public Shopkeeper? Shopkeeper { get; set; }
 }
