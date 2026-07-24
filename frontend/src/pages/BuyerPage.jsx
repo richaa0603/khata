@@ -27,7 +27,13 @@ export default function BuyerPage() {
 
   return (
     <div className="buyers-container">
-      <h1>Select Buyer</h1>
+      <div className="buyers-header">
+        <h1>Select Buyer</h1>
+
+        <div className="buyers-count">
+          Total Buyers: {buyers.length}
+        </div>
+      </div>
 
       <input
         type="text"
@@ -38,6 +44,10 @@ export default function BuyerPage() {
       <div className="buyers-grid">
         {buyers.map((buyer) => (
           <div className="buyer-card" key={buyer.id}>
+            <div className="buyer-avatar">
+              👤
+            </div>
+
             <h2>{buyer.name}</h2>
 
             <p>📞 {buyer.phone}</p>
@@ -54,15 +64,36 @@ export default function BuyerPage() {
             </button>
 
             <div className="buyer-actions">
-              <button>History</button>
-              <button>Manage</button>
+              <button
+                onClick={() =>
+                  navigate(`/buyers/${buyer.id}/history`)
+                }
+              >
+                History
+              </button>
+
+              <button
+                onClick={() =>
+                  navigate(`/buyers/${buyer.id}/manage`)
+                }
+              >
+                Manage
+              </button>
             </div>
           </div>
         ))}
 
         <div className="buyer-card add-card">
-          <h2>+</h2>
-          <p>Add Buyer</p>
+          <div className="add-icon">+</div>
+
+          <h3>Add Buyer</h3>
+
+          <button
+            className="select-btn"
+            onClick={() => navigate("/buyers/add")}
+          >
+            Create Buyer
+          </button>
         </div>
       </div>
     </div>

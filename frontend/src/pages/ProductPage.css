@@ -1,0 +1,88 @@
+.product-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: #f7f8fb;
+}
+
+.product-page h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(280px, 1fr)
+  );
+  gap: 24px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.product-card h2 {
+  margin-bottom: 10px;
+}
+
+.quantity-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.quantity-controls button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.product-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.product-actions button {
+  flex: 1;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.add-card {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.add-card h2 {
+  font-size: 4rem;
+}
+
+.cart-summary {
+  margin-top: 40px;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+}
+
+.generate-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
