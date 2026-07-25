@@ -1,21 +1,36 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getShopkeepers } from "../services/shopkeeperService";
 import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
 
-  const cards = [
-    {
-      name: "Arsh",
-      avatar: "/arsh.jpg",
-      route: "/arsh",
-    },
-    {
-      name: "Sonali",
-      avatar: "/sonali.jpg",
-      route: "/sonali",
-    },
-  ];
+  const [shopkeepers, setShopkeepers] = useState([]);
+
+  useEffect(() => {
+    loadShopkeepers();
+  }, []);
+
+  const loadShopkeepers = async () => {
+    try {
+      const data = await getShopkeepers();
+      setShopkeepers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getAvatar = (name) => {
+    switch (name.toLowerCase()) {
+      case "arsh":
+        return "/arsh.jpg";
+      case "sonali":
+        return "/sonali.jpg";
+      default:
+        return "/default-user.png";
+    }
+  };
 
   return (
     <div className="landing-page">
@@ -23,18 +38,28 @@ export default function Home() {
         <h1>Choose Your Profile</h1>
 
         <div className="profile-grid">
-          {cards.map((user) => (
-            <div key={user.name} className="profile-card">
+          {shopkeepers.map((shopkeeper) => (
+            <div
+              key={shopkeeper.id}
+              className="profile-card"
+            >
               <img
-                src={user.avatar}
-                alt={user.name}
+                src={getAvatar(shopkeeper.name)}
+                alt={shopkeeper.name}
                 className="profile-avatar"
               />
-              <h2 className="profile-name">{user.name}</h2>
+
+              <h2 className="profile-name">
+                {shopkeeper.name}
+              </h2>
 
               <button
                 className="continue-btn"
-                onClick={() => navigate(user.route)}
+                onClick={() =>
+                  navigate(
+                    `/${shopkeeper.name.toLowerCase()}`
+                  )
+                }
               >
                 Continue
               </button>
@@ -42,14 +67,22 @@ export default function Home() {
               <div className="quick-links">
                 <button
                   className="link-btn"
-                  onClick={() => navigate(`${user.route}/history`)}
+                  onClick={() =>
+                    navigate(
+                      `/${shopkeeper.name.toLowerCase()}/history`
+                    )
+                  }
                 >
                   History
                 </button>
 
                 <button
                   className="link-btn"
-                  onClick={() => navigate(`${user.route}/manage`)}
+                  onClick={() =>
+                    navigate(
+                      `/${shopkeeper.name.toLowerCase()}/manage`
+                    )
+                  }
                 >
                   Manage
                 </button>
@@ -58,6 +91,16 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <div className="manage-profile-link">
+  <button
+    onClick={() =>
+      navigate("/manage-shopkeepers")
+    }
+  >
+    ⚙ Manage Profiles
+  </button>
+</div>
     </div>
   );
 }
