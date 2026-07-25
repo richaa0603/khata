@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getProducts } from "../services/productService";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import axios from "axios";
 import "./ProductPage.css";
 
 export default function ProductPage() {
   const navigate = useNavigate();
+  const { buyerId } = useParams();
 
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -13,23 +17,29 @@ export default function ProductPage() {
 
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [buyerId]);
 
   const loadProducts = async () => {
     try {
-      const data = await getProducts();
+      const response = await axios.get(
+        `http://localhost:5228/api/pricing/buyer/${buyerId}/all-products`
+      );
 
-      const formattedProducts = data.map((product) => ({
-        id: product.id,
-        name: product.productName,
-        price: product.basePrice,
-        quantity: 0,
-        category: product.category?.name || "",
-      }));
+      const formattedProducts =
+        response.data.map((product) => ({
+          id: product.id,
+          name: product.productName,
+          price: product.price,
+          quantity: 0,
+          category: product.category || "",
+        }));
 
       setProducts(formattedProducts);
     } catch (error) {
-      console.error("Failed to load products:", error);
+      console.error(
+        "Failed to load buyer pricing:",
+        error
+      );
     }
   };
 
@@ -82,7 +92,8 @@ export default function ProductPage() {
   const filteredProducts = products.filter(
     (product) =>
       (selectedCategory === "All" ||
-        product.category === selectedCategory) &&
+        product.category ===
+          selectedCategory) &&
       product.name
         .toLowerCase()
         .includes(search.toLowerCase())
@@ -93,15 +104,19 @@ export default function ProductPage() {
   );
 
   const totalItems = selectedProducts.reduce(
-    (sum, product) => sum + product.quantity,
+    (sum, product) =>
+      sum + product.quantity,
     0
   );
 
-  const estimatedTotal = selectedProducts.reduce(
-    (sum, product) =>
-      sum + product.quantity * product.price,
-    0
-  );
+  const estimatedTotal =
+    selectedProducts.reduce(
+      (sum, product) =>
+        sum +
+        product.quantity *
+          Number(product.price),
+      0
+    );
 
   return (
     <div className="product-page">
@@ -112,7 +127,9 @@ export default function ProductPage() {
         placeholder="Search Products..."
         className="buyer-search"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) =>
+          setSearch(e.target.value)
+        }
       />
 
       <div className="category-filters">
@@ -135,7 +152,10 @@ export default function ProductPage() {
 
       <div className="product-grid">
         {filteredProducts.map((product) => (
-          <div className="product-card" key={product.id}>
+          <div
+            className="product-card"
+            key={product.id}
+          >
             <h2>{product.name}</h2>
 
             <p>{product.category}</p>
@@ -153,7 +173,9 @@ export default function ProductPage() {
                 -
               </button>
 
-              <span>{product.quantity}</span>
+              <span>
+                {product.quantity}
+              </span>
 
               <button
                 onClick={() =>
@@ -173,6 +195,7 @@ export default function ProductPage() {
 
         <div className="product-card add-card">
           <h2>+</h2>
+
           <p>Add Product</p>
 
           <button>Add New</button>
@@ -182,15 +205,19 @@ export default function ProductPage() {
       <div className="cart-summary">
         <h2>Selected Products</h2>
 
-        <h3>Total Items : {totalItems}</h3>
+        <h3>
+          Total Items : {totalItems}
+        </h3>
 
         <h3>
-          Estimated Total : ₹ {estimatedTotal}
+          Estimated Total : ₹{" "}
+          {estimatedTotal}
         </h3>
 
         {selectedProducts.map((product) => (
           <p key={product.id}>
-            {product.name} × {product.quantity}
+            {product.name} ×{" "}
+            {product.quantity}
           </p>
         ))}
 
@@ -207,7 +234,9 @@ export default function ProductPage() {
             onClick={() =>
               navigate("/invoice", {
                 state: {
-                  products: selectedProducts,
+                  buyerId,
+                  products:
+                    selectedProducts,
                 },
               })
             }

@@ -43,12 +43,13 @@ const loadBuyers = async () => {
             <div className="buyer-avatar">
               👤
             </div>
+            <h2>{buyer.buyerName}</h2>
 
-            <h2>{buyer.name}</h2>
+<p>{buyer.phoneNumber}</p>
 
-            <p>📞 {buyer.phone}</p>
-
-            <p>💸 Discount: {buyer.discount}</p>
+<p>
+  Discount: {buyer.discountPercentage}%
+</p>
 
             <button
               className="select-btn"
@@ -70,10 +71,10 @@ const loadBuyers = async () => {
 
               <button
                 onClick={() =>
-                  navigate(`/buyers/${buyer.id}/manage`)
+                  navigate(`/buyers/${buyer.id}/pricing`)
                 }
               >
-                Manage
+                Pricing
               </button>
             </div>
           </div>
