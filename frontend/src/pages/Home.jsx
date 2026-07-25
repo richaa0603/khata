@@ -30,6 +30,7 @@ export default function Home() {
                 alt={user.name}
                 className="profile-avatar"
               />
+              <h2 className="profile-name">{user.name}</h2>
 
               <button
                 className="continue-btn"

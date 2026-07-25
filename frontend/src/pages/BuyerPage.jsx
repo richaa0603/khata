@@ -1,29 +1,25 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getBuyers } from "../services/buyerService";
 import "./BuyerPage.css";
 
 export default function BuyerPage() {
   const navigate = useNavigate();
 
-  const buyers = [
-    {
-      id: 1,
-      name: "Gupta Traders",
-      phone: "9999990001",
-      discount: "5%",
-    },
-    {
-      id: 2,
-      name: "Royal Sanitary",
-      phone: "9999990002",
-      discount: "8%",
-    },
-    {
-      id: 3,
-      name: "Om Enterprises",
-      phone: "9999990003",
-      discount: "10%",
-    },
-  ];
+  const [buyers, setBuyers] = useState([]);
+
+useEffect(() => {
+  loadBuyers();
+}, []);
+
+const loadBuyers = async () => {
+  try {
+    const data = await getBuyers();
+    setBuyers(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div className="buyers-container">

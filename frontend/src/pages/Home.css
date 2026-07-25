@@ -147,23 +147,39 @@
     flex-direction: column;
   }
 }
-
 .profile-name {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  margin-top: 18px;
+  margin-bottom: 22px;
 
-  color: red !important;
-  font-size: 48px !important;
-  font-weight: 900 !important;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-align: center;
 
-  text-align: center !important;
-  margin-top: 20px !important;
-  margin-bottom: 10px !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 
-  z-index: 9999 !important;
+  position: relative;
 }
 
+.profile-name::after {
+  content: "";
+  display: block;
+
+  width: 40px;
+  height: 2px;
+
+  margin: 10px auto 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+
+  border-radius: 999px;
+}
 .profile-role {
   display: block !important;
   color: yellow !important;

@@ -1,73 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getProducts } from "../services/productService";
 import "./ProductPage.css";
 
 export default function ProductPage() {
   const navigate = useNavigate();
 
-  const productData = [
-    {
-      id: 1,
-      name: "Chrome Tap",
-      category: "Taps",
-      price: 450,
-      quantity: 0,
-    },
-    {
-      id: 2,
-      name: "Premium Steel Tap",
-      category: "Taps",
-      price: 650,
-      quantity: 0,
-    },
-    {
-      id: 3,
-      name: "Rain Shower",
-      category: "Showers",
-      price: 1200,
-      quantity: 0,
-    },
-    {
-      id: 4,
-      name: "Ultra Shower",
-      category: "Showers",
-      price: 1800,
-      quantity: 0,
-    },
-    {
-      id: 5,
-      name: "Classic Basin",
-      category: "Wash Basins",
-      price: 2200,
-      quantity: 0,
-    },
-    {
-      id: 6,
-      name: "Premium Basin",
-      category: "Wash Basins",
-      price: 3200,
-      quantity: 0,
-    },
-    {
-      id: 7,
-      name: "Steel Drain Cover",
-      category: "Drain Covers",
-      price: 250,
-      quantity: 0,
-    },
-    {
-      id: 8,
-      name: "Brass Drain Cover",
-      price: 450,
-      category: "Drain Covers",
-      quantity: 0,
-    },
-  ];
-
-  const [products, setProducts] = useState(productData);
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] =
     useState("All");
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    try {
+      const data = await getProducts();
+
+      const formattedProducts = data.map((product) => ({
+        id: product.id,
+        name: product.productName,
+        price: product.basePrice,
+        quantity: 0,
+        category: product.category?.name || "",
+      }));
+
+      setProducts(formattedProducts);
+    } catch (error) {
+      console.error("Failed to load products:", error);
+    }
+  };
 
   const categories = [
     "All",
