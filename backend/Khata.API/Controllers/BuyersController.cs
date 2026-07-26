@@ -50,4 +50,17 @@ public class BuyersController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("{id}")]
+public async Task<IActionResult> GetBuyer(
+    int id)
+{
+    var buyer = await _context.Buyers
+        .FindAsync(id);
+
+    if (buyer == null)
+        return NotFound();
+
+    return Ok(buyer);
+}
 }

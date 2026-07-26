@@ -1,18 +1,39 @@
 import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getBuyerById } from "../services/buyerService";
 import "./InvoicePage.css";
 
 export default function InvoicePage() {
   const { state } = useLocation();
 
-  const products = state?.products || [];
+const products = state?.products || [];
+const buyerId = state?.buyerId;
 
+const [buyer, setBuyer] = useState(null);
+
+useEffect(() => {
+  if (buyerId) {
+    loadBuyer();
+  }
+}, [buyerId]);
+
+const loadBuyer = async () => {
+  try {
+    const data = await getBuyerById(buyerId);
+    setBuyer(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
   const subtotal = products.reduce(
     (sum, product) =>
       sum + product.price * product.quantity,
     0
   );
 
-  const discountPercentage = 5;
+ const discountPercentage =
+  buyer?.discountPercentage || 0;
+
 
   const discountAmount =
     (subtotal * discountPercentage) / 100;
@@ -74,12 +95,19 @@ export default function InvoicePage() {
           </div>
 
           <div>
-            <h3>Buyer Details</h3>
+  <h3>Buyer Details</h3>
 
-            <p>Gupta Traders</p>
-            <p>Delhi</p>
-            <p>GSTIN: BUYERGST123</p>
-          </div>
+  <p>{buyer?.buyerName}</p>
+
+  <p>{buyer?.phoneNumber}</p>
+
+  <p>{buyer?.address}</p>
+
+  <p>
+    Discount:{" "}
+    {buyer?.discountPercentage || 0}%
+  </p>
+</div>
         </div>
 
         <table className="invoice-table">
@@ -102,9 +130,7 @@ export default function InvoicePage() {
                 <td>₹ {product.price}</td>
 
                 <td>
-                  ₹{" "}
-                  {product.price *
-                    product.quantity}
+                  ₹ {(product.price * product.quantity).toFixed(2)}
                 </td>
               </tr>
             ))}

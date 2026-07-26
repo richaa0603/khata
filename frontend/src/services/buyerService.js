@@ -6,3 +6,11 @@ export const getBuyers = async () => {
   const response = await axios.get(API_URL);
   return response.data;
 };
+
+export const getBuyerById = async (buyerId) => {
+  const response = await axios.get(
+    `http://localhost:5228/api/buyers/${buyerId}`
+  );
+
+  return response.data;
+};
