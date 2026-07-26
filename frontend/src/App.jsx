@@ -8,6 +8,8 @@ import ManageShopkeepers from "./pages/ManageShopkeepers";
 import ManagePricing from "./pages/ManagePricing";
 import InvoiceHistory
 from "./pages/InvoiceHistory";
+import BuyerHistory
+from "./pages/BuyerHistory";
 
 export default function App() {
   return (
@@ -25,6 +27,11 @@ export default function App() {
         <Route
   path="/invoice-history"
   element={<InvoiceHistory />}
+/>
+
+<Route
+  path="/buyers/:buyerId/history"
+  element={<BuyerHistory />}
 />
       </Routes>
     </BrowserRouter>

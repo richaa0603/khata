@@ -21,3 +21,14 @@ export const getInvoices = async () => {
 
   return response.data;
 };
+
+export const getBuyerInvoices =
+  async (buyerId) => {
+
+    const response =
+      await axios.get(
+        `${API_URL}/buyer/${buyerId}`
+      );
+
+    return response.data;
+};

@@ -81,4 +81,16 @@ public class InvoicesController : ControllerBase
 
         return Ok(invoices);
     }
+
+    [HttpGet("buyer/{buyerId}")]
+public async Task<IActionResult> GetBuyerInvoices(
+    int buyerId)
+{
+    var invoices = await _context.Invoices
+        .Where(x => x.BuyerId == buyerId)
+        .OrderByDescending(x => x.InvoiceDate)
+        .ToListAsync();
+
+    return Ok(invoices);
+}
 }
