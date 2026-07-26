@@ -1,25 +1,34 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+
 import { getBuyers } from "../services/buyerService";
 import "./BuyerPage.css";
 
 export default function BuyerPage() {
   const navigate = useNavigate();
 
+  const { state } = useLocation();
+
+  const shopkeeper =
+    state?.shopkeeper;
+
   const [buyers, setBuyers] = useState([]);
 
-useEffect(() => {
-  loadBuyers();
-}, []);
+  useEffect(() => {
+    loadBuyers();
+  }, []);
 
-const loadBuyers = async () => {
-  try {
-    const data = await getBuyers();
-    setBuyers(data);
-  } catch (error) {
-    console.error(error);
-  }
-};
+  const loadBuyers = async () => {
+    try {
+      const data = await getBuyers();
+      setBuyers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="buyers-container">
@@ -39,22 +48,38 @@ const loadBuyers = async () => {
 
       <div className="buyers-grid">
         {buyers.map((buyer) => (
-          <div className="buyer-card" key={buyer.id}>
+          <div
+            className="buyer-card"
+            key={buyer.id}
+          >
             <div className="buyer-avatar">
               👤
             </div>
-            <h2>{buyer.buyerName}</h2>
 
-<p>{buyer.phoneNumber}</p>
+            <h2>
+              {buyer.buyerName}
+            </h2>
 
-<p>
-  Discount: {buyer.discountPercentage}%
-</p>
+            <p>
+              {buyer.phoneNumber}
+            </p>
+
+            <p>
+              Discount:{" "}
+              {buyer.discountPercentage}%
+            </p>
 
             <button
               className="select-btn"
               onClick={() =>
-                navigate(`/buyers/${buyer.id}/products`)
+                navigate(
+                  `/buyers/${buyer.id}/products`,
+                  {
+                    state: {
+                      shopkeeper,
+                    },
+                  }
+                )
               }
             >
               Select Buyer
@@ -63,7 +88,14 @@ const loadBuyers = async () => {
             <div className="buyer-actions">
               <button
                 onClick={() =>
-                  navigate(`/buyers/${buyer.id}/history`)
+                  navigate(
+                    `/buyers/${buyer.id}/history`,
+                    {
+                      state: {
+                        shopkeeper,
+                      },
+                    }
+                  )
                 }
               >
                 History
@@ -71,7 +103,14 @@ const loadBuyers = async () => {
 
               <button
                 onClick={() =>
-                  navigate(`/buyers/${buyer.id}/pricing`)
+                  navigate(
+                    `/buyers/${buyer.id}/pricing`,
+                    {
+                      state: {
+                        shopkeeper,
+                      },
+                    }
+                  )
                 }
               >
                 Pricing
@@ -81,13 +120,17 @@ const loadBuyers = async () => {
         ))}
 
         <div className="buyer-card add-card">
-          <div className="add-icon">+</div>
+          <div className="add-icon">
+            +
+          </div>
 
           <h3>Add Buyer</h3>
 
           <button
             className="select-btn"
-            onClick={() => navigate("/buyers/add")}
+            onClick={() =>
+              navigate("/buyers/add")
+            }
           >
             Create Buyer
           </button>

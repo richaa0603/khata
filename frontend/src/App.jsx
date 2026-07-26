@@ -6,6 +6,8 @@ import ProductPage from "./pages/ProductPage";
 import  InvoicePage from "./pages/InvoicePage";
 import ManageShopkeepers from "./pages/ManageShopkeepers";
 import ManagePricing from "./pages/ManagePricing";
+import InvoiceHistory
+from "./pages/InvoiceHistory";
 
 export default function App() {
   return (
@@ -19,9 +21,10 @@ export default function App() {
         <Route path="/manage-shopkeepers" element={<ManageShopkeepers />}/>
         <Route path="/manage-pricing" element={<ManagePricing />} />
         <Route path="/manage-pricing/:buyerId" element={<ManagePricing />} />
+        <Route path="/buyers/:buyerId/pricing" element={<ManagePricing />} />
         <Route
-  path="/buyers/:buyerId/pricing"
-  element={<ManagePricing />}
+  path="/invoice-history"
+  element={<InvoiceHistory />}
 />
       </Routes>
     </BrowserRouter>

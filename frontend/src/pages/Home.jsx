@@ -25,8 +25,10 @@ export default function Home() {
     switch (name.toLowerCase()) {
       case "arsh":
         return "/arsh.jpg";
+
       case "sonali":
         return "/sonali.jpg";
+
       default:
         return "/default-user.png";
     }
@@ -57,7 +59,12 @@ export default function Home() {
                 className="continue-btn"
                 onClick={() =>
                   navigate(
-                    `/${shopkeeper.name.toLowerCase()}`
+                    `/${shopkeeper.name.toLowerCase()}`,
+                    {
+                      state: {
+                        shopkeeper,
+                      },
+                    }
                   )
                 }
               >
@@ -69,7 +76,12 @@ export default function Home() {
                   className="link-btn"
                   onClick={() =>
                     navigate(
-                      `/${shopkeeper.name.toLowerCase()}/history`
+                      `/${shopkeeper.name.toLowerCase()}/history`,
+                      {
+                        state: {
+                          shopkeeper,
+                        },
+                      }
                     )
                   }
                 >
@@ -80,7 +92,12 @@ export default function Home() {
                   className="link-btn"
                   onClick={() =>
                     navigate(
-                      `/${shopkeeper.name.toLowerCase()}/manage`
+                      `/${shopkeeper.name.toLowerCase()}/manage`,
+                      {
+                        state: {
+                          shopkeeper,
+                        },
+                      }
                     )
                   }
                 >
@@ -93,14 +110,14 @@ export default function Home() {
       </div>
 
       <div className="manage-profile-link">
-  <button
-    onClick={() =>
-      navigate("/manage-shopkeepers")
-    }
-  >
-    ⚙ Manage Profiles
-  </button>
-</div>
+        <button
+          onClick={() =>
+            navigate("/manage-shopkeepers")
+          }
+        >
+          ⚙ Manage Profiles
+        </button>
+      </div>
     </div>
   );
 }

@@ -2,18 +2,31 @@ import { useState, useEffect } from "react";
 import {
   useNavigate,
   useParams,
+  useLocation,
 } from "react-router-dom";
+
 import axios from "axios";
 import "./ProductPage.css";
 
 export default function ProductPage() {
   const navigate = useNavigate();
+
   const { buyerId } = useParams();
 
+  const { state } = useLocation();
+
+  const shopkeeper =
+    state?.shopkeeper;
+
   const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] =
-    useState("All");
+
+  const [search, setSearch] =
+    useState("");
+
+  const [
+    selectedCategory,
+    setSelectedCategory,
+  ] = useState("All");
 
   useEffect(() => {
     loadProducts();
@@ -26,15 +39,23 @@ export default function ProductPage() {
       );
 
       const formattedProducts =
-        response.data.map((product) => ({
-          id: product.id,
-          name: product.productName,
-          price: product.price,
-          quantity: 0,
-          category: product.category || "",
-        }));
+        response.data.map(
+          (product) => ({
+            id: product.id,
+            name:
+              product.productName,
+            price:
+              product.price,
+            quantity: 0,
+            category:
+              product.category ||
+              "",
+          })
+        );
 
-      setProducts(formattedProducts);
+      setProducts(
+        formattedProducts
+      );
     } catch (error) {
       console.error(
         "Failed to load buyer pricing:",
@@ -51,20 +72,25 @@ export default function ProductPage() {
     "Drain Covers",
   ];
 
-  const increaseQuantity = (id) => {
+  const increaseQuantity = (
+    id
+  ) => {
     setProducts((prev) =>
       prev.map((product) =>
         product.id === id
           ? {
               ...product,
-              quantity: product.quantity + 1,
+              quantity:
+                product.quantity + 1,
             }
           : product
       )
     );
   };
 
-  const decreaseQuantity = (id) => {
+  const decreaseQuantity = (
+    id
+  ) => {
     setProducts((prev) =>
       prev.map((product) =>
         product.id === id
@@ -72,7 +98,8 @@ export default function ProductPage() {
               ...product,
               quantity:
                 product.quantity > 0
-                  ? product.quantity - 1
+                  ? product.quantity -
+                    1
                   : 0,
             }
           : product
@@ -89,25 +116,32 @@ export default function ProductPage() {
     );
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
-      (selectedCategory === "All" ||
-        product.category ===
-          selectedCategory) &&
-      product.name
-        .toLowerCase()
-        .includes(search.toLowerCase())
-  );
+  const filteredProducts =
+    products.filter(
+      (product) =>
+        (selectedCategory ===
+          "All" ||
+          product.category ===
+            selectedCategory) &&
+        product.name
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+    );
 
-  const selectedProducts = products.filter(
-    (product) => product.quantity > 0
-  );
+  const selectedProducts =
+    products.filter(
+      (product) =>
+        product.quantity > 0
+    );
 
-  const totalItems = selectedProducts.reduce(
-    (sum, product) =>
-      sum + product.quantity,
-    0
-  );
+  const totalItems =
+    selectedProducts.reduce(
+      (sum, product) =>
+        sum + product.quantity,
+      0
+    );
 
   const estimatedTotal =
     selectedProducts.reduce(
@@ -120,7 +154,9 @@ export default function ProductPage() {
 
   return (
     <div className="product-page">
-      <h1>Select Products</h1>
+      <h1>
+        Select Products
+      </h1>
 
       <input
         type="text"
@@ -128,85 +164,114 @@ export default function ProductPage() {
         className="buyer-search"
         value={search}
         onChange={(e) =>
-          setSearch(e.target.value)
+          setSearch(
+            e.target.value
+          )
         }
       />
 
       <div className="category-filters">
-        {categories.map((category) => (
-          <button
-            key={category}
-            className={
-              selectedCategory === category
-                ? "category-btn active"
-                : "category-btn"
-            }
-            onClick={() =>
-              setSelectedCategory(category)
-            }
-          >
-            {category}
-          </button>
-        ))}
+        {categories.map(
+          (category) => (
+            <button
+              key={category}
+              className={
+                selectedCategory ===
+                category
+                  ? "category-btn active"
+                  : "category-btn"
+              }
+              onClick={() =>
+                setSelectedCategory(
+                  category
+                )
+              }
+            >
+              {category}
+            </button>
+          )
+        )}
       </div>
 
       <div className="product-grid">
-        {filteredProducts.map((product) => (
-          <div
-            className="product-card"
-            key={product.id}
-          >
-            <h2>{product.name}</h2>
+        {filteredProducts.map(
+          (product) => (
+            <div
+              className="product-card"
+              key={product.id}
+            >
+              <h2>
+                {product.name}
+              </h2>
 
-            <p>{product.category}</p>
+              <p>
+                {product.category}
+              </p>
 
-            <p className="product-price">
-              ₹ {product.price}
-            </p>
+              <p className="product-price">
+                ₹ {product.price}
+              </p>
 
-            <div className="quantity-controls">
-              <button
-                onClick={() =>
-                  decreaseQuantity(product.id)
-                }
-              >
-                -
-              </button>
+              <div className="quantity-controls">
+                <button
+                  onClick={() =>
+                    decreaseQuantity(
+                      product.id
+                    )
+                  }
+                >
+                  -
+                </button>
 
-              <span>
-                {product.quantity}
-              </span>
+                <span>
+                  {
+                    product.quantity
+                  }
+                </span>
 
-              <button
-                onClick={() =>
-                  increaseQuantity(product.id)
-                }
-              >
-                +
-              </button>
+                <button
+                  onClick={() =>
+                    increaseQuantity(
+                      product.id
+                    )
+                  }
+                >
+                  +
+                </button>
+              </div>
+
+              <div className="product-actions">
+                <button>
+                  History
+                </button>
+
+                <button>
+                  Manage
+                </button>
+              </div>
             </div>
-
-            <div className="product-actions">
-              <button>History</button>
-              <button>Manage</button>
-            </div>
-          </div>
-        ))}
+          )
+        )}
 
         <div className="product-card add-card">
           <h2>+</h2>
 
           <p>Add Product</p>
 
-          <button>Add New</button>
+          <button>
+            Add New
+          </button>
         </div>
       </div>
 
       <div className="cart-summary">
-        <h2>Selected Products</h2>
+        <h2>
+          Selected Products
+        </h2>
 
         <h3>
-          Total Items : {totalItems}
+          Total Items :{" "}
+          {totalItems}
         </h3>
 
         <h3>
@@ -214,17 +279,23 @@ export default function ProductPage() {
           {estimatedTotal}
         </h3>
 
-        {selectedProducts.map((product) => (
-          <p key={product.id}>
-            {product.name} ×{" "}
-            {product.quantity}
-          </p>
-        ))}
+        {selectedProducts.map(
+          (product) => (
+            <p key={product.id}>
+              {product.name} ×{" "}
+              {
+                product.quantity
+              }
+            </p>
+          )
+        )}
 
         <div className="cart-actions">
           <button
             className="clear-btn"
-            onClick={clearSelection}
+            onClick={
+              clearSelection
+            }
           >
             Clear Selection
           </button>
@@ -232,13 +303,20 @@ export default function ProductPage() {
           <button
             className="generate-btn"
             onClick={() =>
-              navigate("/invoice", {
-                state: {
-                  buyerId,
-                  products:
-                    selectedProducts,
-                },
-              })
+              navigate(
+                "/invoice",
+                {
+                  state: {
+                    buyerId,
+
+                    shopkeeperId:
+                      shopkeeper?.id,
+
+                    products:
+                      selectedProducts,
+                  },
+                }
+              )
             }
           >
             Generate Bill

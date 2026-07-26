@@ -2,12 +2,18 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getBuyerById } from "../services/buyerService";
 import "./InvoicePage.css";
+import { saveInvoice }
+from "../services/invoiceService";
 
 export default function InvoicePage() {
   const { state } = useLocation();
 
 const products = state?.products || [];
 const buyerId = state?.buyerId;
+const shopkeeperId =
+  state?.shopkeeperId;
+  const [saved, setSaved] =
+  useState(false);
 
 const [buyer, setBuyer] = useState(null);
 
@@ -16,6 +22,71 @@ useEffect(() => {
     loadBuyer();
   }
 }, [buyerId]);
+
+useEffect(() => {
+ if (
+  buyer &&
+  products.length > 0 &&
+  !saved
+) {
+    storeInvoice();
+  }
+}, [buyer]);
+const storeInvoice = async () => {
+  try {
+
+    const payload = {
+  buyerId,
+
+  shopkeeperId,
+
+  subtotal,
+
+  discountAmount,
+
+  gstAmount,
+
+  grandTotal,
+
+  items: products.map((product) => ({
+    productId: product.id,
+
+    productName: product.name,
+
+    rate: product.price,
+
+    quantity: product.quantity,
+
+    amount:
+      product.price *
+      product.quantity,
+  })),
+};
+
+    console.log(
+      "Invoice payload:",
+      payload
+    );
+
+    const result = await saveInvoice(
+      payload
+    );
+setSaved(true);
+
+    console.log(
+      "Invoice saved:",
+      result
+    );
+
+  } catch (error) {
+    console.error(
+      "Invoice save failed:",
+      error.response?.data ||
+      error.message ||
+      error
+    );
+  }
+};
 
 const loadBuyer = async () => {
   try {
