@@ -4,6 +4,26 @@
   padding: 40px;
 }
 
+.company-logo img {
+  width: 120px;
+  height: auto;
+}
+.invoice-header {
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 20px;
+}
+
+.invoice-header p {
+  margin: 4px 0;
+}
+.info-card {
+  flex: 1;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
 .invoice-container {
   max-width: 1200px;
   margin: auto;
@@ -56,55 +76,80 @@
   border-collapse: collapse;
   margin-top: 20px;
 }
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.invoice-table thead {
+  background: #22c55e;
+  color: white;
+}
 
 .invoice-table th,
 .invoice-table td {
-  border: 1px solid #d9d9d9;
-  padding: 12px;
+  padding: 14px;
   text-align: center;
 }
 
-.invoice-table th {
-  background: #f4f4f4;
+.invoice-table tbody tr:nth-child(even) {
+  background: #f9fafb;
 }
-
 .summary-section {
   display: flex;
   justify-content: flex-end;
   margin-top: 30px;
 }
-
 .summary-card {
-  width: 350px;
-}
+  width: 360px;
+  padding: 25px;
 
+  background: #f8fafc;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 4px 10px
+    rgba(0,0,0,.07);
+}
 .summary-card p {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
-
 .grand-total {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 700;
+  color: #16a34a;
 }
-
 .signatures {
   display: flex;
   justify-content: space-between;
   margin-top: 60px;
 }
-
 .signature-box {
-  width: 250px;
-  height: 80px;
-  border-bottom: 2px solid #000;
+  width: 260px;
+  height: 70px;
+  border-bottom: 2px solid black;
 }
 
+.signatures p {
+  margin-top: 10px;
+  text-align: center;
+}
 .invoice-footer {
   text-align: center;
-  margin-top: 40px;
-  color: #666;
+
+  margin-top: 50px;
+
+  color: #6b7280;
+
+  border-top: 1px solid #e5e7eb;
+
+  padding-top: 20px;
 }
 
 .download-btn {
@@ -123,28 +168,11 @@
   background: #16a34a;
 }
 
-@media print {
-  .download-btn {
-    display: none;
-  }
+@media (max-width: 768px) {
 
   .invoice-page {
-    padding: 0;
-    background: white;
+    padding: 10px;
   }
-  .invoice-actions {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-
-  .invoice-container {
-    box-shadow: none;
-  }
-}
-@media (max-width: 768px) {
 
   .invoice-container {
     padding: 15px;
@@ -152,44 +180,26 @@
 
   .invoice-header {
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
     text-align: center;
   }
 
   .invoice-info {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
 
-  .invoice-actions {
-    flex-direction: column;
-  }
-
-  .download-btn {
+  .summary-card {
     width: 100%;
   }
 
   .signatures {
     flex-direction: column;
     gap: 30px;
-  }
-}
-.invoice-table {
-  display: block;
-  overflow-x: auto;
-}
-
-@media (max-width: 768px) {
-
-  .history-card {
-    width: 100%;
+    align-items: center;
   }
 
-  .history-page {
-    padding: 15px;
-  }
-
-  .totals-section {
+  .invoice-actions {
     flex-direction: column;
   }
 }

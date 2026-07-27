@@ -5,40 +5,28 @@ import {
   saveInvoice,
   downloadInvoicePdf,
 } from "../services/invoiceService";
-
 import "./InvoicePage.css";
-
 export default function InvoicePage() {
   const { state } = useLocation();
-
   const products =
     state?.products || [];
-
   const buyerId =
     state?.buyerId;
-
   const shopkeeperId =
     state?.shopkeeperId;
-
   const [buyer, setBuyer] =
     useState(null);
-
   const [saved, setSaved] =
   useState(false);
-
 const [saving, setSaving] =
   useState(true);
-
 const [invoiceId, setInvoiceId] =
   useState(null);
-
-
   useEffect(() => {
     if (buyerId) {
       loadBuyer();
     }
   }, [buyerId]);
-
   useEffect(() => {
     if (
       buyer &&
@@ -48,7 +36,6 @@ const [invoiceId, setInvoiceId] =
       storeInvoice();
     }
   }, [buyer]);
-
   const loadBuyer =
     async () => {
       try {
@@ -56,13 +43,11 @@ const [invoiceId, setInvoiceId] =
           await getBuyerById(
             buyerId
           );
-
         setBuyer(data);
       } catch (error) {
         console.error(error);
       }
     };
-
   const subtotal =
     products.reduce(
       (sum, product) =>
@@ -71,20 +56,16 @@ const [invoiceId, setInvoiceId] =
           product.quantity,
       0
     );
-
   const discountPercentage =
     buyer?.discountPercentage ||
     0;
-
   const discountAmount =
     (subtotal *
       discountPercentage) /
     100;
-
   const amountAfterDiscount =
     subtotal -
     discountAmount;
-
   const gstAmount =
     (amountAfterDiscount *
       5) /
@@ -256,8 +237,8 @@ if (!invoiceId) {
           </div>
 
           <div className="company-logo">
-            LOGO
-          </div>
+
+</div>
         </div>
 
         <hr />
@@ -268,58 +249,40 @@ if (!invoiceId) {
 
         <div className="invoice-info">
 
-          <div>
-            <h3>
-              Invoice Details
-            </h3>
+  <div className="info-card">
 
-            <p>
-              <strong>
-                Invoice No:
-              </strong>{" "}
-              {invoiceNumber}
-            </p>
+    <h3>Invoice Details</h3>
 
-            <p>
-              <strong>
-                Date:
-              </strong>{" "}
-              {generatedAt}
-            </p>
-          </div>
+    <p>
+      <strong>Invoice No:</strong>{" "}
+      {invoiceNumber}
+    </p>
 
-          <div>
-            <h3>
-              Buyer Details
-            </h3>
+    <p>
+      <strong>Date:</strong>{" "}
+      {generatedAt}
+    </p>
 
-            <p>
-              {
-                buyer?.buyerName
-              }
-            </p>
+  </div>
 
-            <p>
-              {
-                buyer?.phoneNumber
-              }
-            </p>
+  <div className="info-card">
 
-            <p>
-              {
-                buyer?.address
-              }
-            </p>
+    <h3>Buyer Details</h3>
 
-            <p>
-              Discount:{" "}
-              {buyer?.discountPercentage ||
-                0}
-              %
-            </p>
-          </div>
+    <p>{buyer?.buyerName}</p>
 
-        </div>
+    <p>{buyer?.phoneNumber}</p>
+
+    <p>{buyer?.address}</p>
+
+    <p>
+      Discount:{" "}
+      {buyer?.discountPercentage || 0}%
+    </p>
+
+  </div>
+
+</div>
 
         <table className="invoice-table">
 
@@ -488,16 +451,12 @@ if (!invoiceId) {
           </button>
 
           <button
-  className="download-btn"
-  onClick={handleDownloadPdf}
-  disabled={saving}
->
-  {
-    saving
-      ? "Saving Invoice..."
-      : "Download PDF"
-  }
-</button>
+            className="download-btn"
+            onClick={handleDownloadPdf}
+            disabled={saving}
+          >
+            {saving ? "Saving Invoice..." : "Download PDF"}
+          </button>
 
         </div>
 
