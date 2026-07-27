@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5228/api/pricing";
+const API_URL =
+  `${import.meta.env.VITE_API_URL}/pricing`;
 
 export const getBuyerPricing = async (
   buyerId

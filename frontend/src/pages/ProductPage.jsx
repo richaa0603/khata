@@ -34,9 +34,9 @@ export default function ProductPage() {
 
   const loadProducts = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5228/api/pricing/buyer/${buyerId}/all-products`
-      );
+     const response = await axios.get(
+  `${import.meta.env.VITE_API_URL}/pricing/buyer/${buyerId}/all-products`
+);
 
       const formattedProducts =
         response.data.map(

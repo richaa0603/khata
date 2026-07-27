@@ -81,6 +81,22 @@ public class InvoicesController : ControllerBase
 
         return Ok(invoices);
     }
+    [HttpGet("shopkeeper/{shopkeeperId}")]
+public async Task<IActionResult>
+    GetShopkeeperInvoices(
+        int shopkeeperId)
+{
+    var invoices = await _context.Invoices
+        .Include(x => x.Buyer)
+        .Where(x =>
+            x.ShopkeeperId ==
+            shopkeeperId)
+        .OrderByDescending(
+            x => x.InvoiceDate)
+        .ToListAsync();
+
+    return Ok(invoices);
+}
 
     [HttpGet("buyer/{buyerId}")]
 public async Task<IActionResult> GetBuyerInvoices(

@@ -1,8 +1,6 @@
 import axios from "axios";
-
 const API_URL =
-  "http://localhost:5228/api/invoices";
-
+  `${import.meta.env.VITE_API_URL}/invoices`;
 export const saveInvoice = async (
   invoice
 ) => {
@@ -28,6 +26,17 @@ export const getBuyerInvoices =
     const response =
       await axios.get(
         `${API_URL}/buyer/${buyerId}`
+      );
+
+    return response.data;
+};
+
+export const getShopkeeperInvoices =
+  async (shopkeeperId) => {
+
+    const response =
+      await axios.get(
+        `${API_URL}/shopkeeper/${shopkeeperId}`
       );
 
     return response.data;
