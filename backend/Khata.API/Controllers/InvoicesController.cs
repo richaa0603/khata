@@ -91,6 +91,23 @@ public async Task<IActionResult>
         .ToListAsync();
     return Ok(invoices);
 }
+[HttpGet("{invoiceId}")]
+public async Task<IActionResult>
+GetInvoice(int invoiceId)
+{
+    var invoice =
+        await _context.Invoices
+            .Include(x => x.Buyer)
+            .Include(x => x.InvoiceItems)
+            .ThenInclude(x => x.Product)
+            .FirstOrDefaultAsync(
+                x => x.Id == invoiceId);
+
+    if (invoice == null)
+        return NotFound();
+
+    return Ok(invoice);
+}
 [HttpGet("{invoiceId}/pdf")]
 public async Task<IActionResult> DownloadPdf(
     int invoiceId)
@@ -410,4 +427,5 @@ public async Task<IActionResult> DownloadPdf(
         pdfBytes,
         "application/pdf",
         $"{invoice.InvoiceNumber}.pdf");
+}
 }
