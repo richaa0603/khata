@@ -18,9 +18,9 @@ export default function InvoicePage() {
     useState(null);
   const [saved, setSaved] =
   useState(false);
-const [saving, setSaving] =
+ const [saving, setSaving] =
   useState(true);
-const [invoiceId, setInvoiceId] =
+ const [invoiceId, setInvoiceId] =
   useState(null);
   useEffect(() => {
     if (buyerId) {
@@ -74,7 +74,7 @@ const [invoiceId, setInvoiceId] =
   const grandTotal =
     amountAfterDiscount +
     gstAmount;
-const storeInvoice = async () => {
+ const storeInvoice = async () => {
   try {
 
     setSaving(true);
@@ -131,58 +131,30 @@ const storeInvoice = async () => {
   const handleDownloadPdf =
     async () => {
       console.log(
-  "invoiceId:",
-  invoiceId
-);
+        "invoiceId:",
+        invoiceId
+      );
 
-if (saving) {
-  alert(
-    "Invoice is still being saved."
-  );
-  return;
-}
+      if (saving) {
+        alert(
+          "Invoice is still being saved."
+        );
+        return;
+      }
 
-if (!invoiceId) {
-  alert(
-    "Invoice save failed."
-  );
-  return;
-}
+      if (!invoiceId) {
+        alert(
+          "Invoice save failed."
+        );
+        return;
+      }
 
       try {
-        const blob =
-          await downloadInvoicePdf(
-            invoiceId
-          );
-
-        const url =
-          window.URL.createObjectURL(
-            blob
-          );
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-        link.href = url;
-
-        link.download = `Invoice-${invoiceId}.pdf`;
-
-        document.body.appendChild(
-          link
-        );
-
-        link.click();
-
-        link.remove();
-
-        window.URL.revokeObjectURL(
-          url
+        await downloadInvoicePdf(
+          invoiceId
         );
       } catch (error) {
         console.error(error);
-
         alert(
           "Failed to download PDF"
         );
@@ -190,143 +162,141 @@ if (!invoiceId) {
     };
 
   const invoiceNumber =
-    "KH-" +
-    Math.floor(
-      100000 +
-        Math.random() *
-          900000
-    );
-
+    invoiceId || "N/A";
   const generatedAt =
-    new Date().toLocaleString();
+    new Date()
+      .toLocaleDateString();
 
   return (
-    <div className="invoice-page">
-      <div className="invoice-container">
+  <div className="invoice-page">
 
-        <div className="invoice-header">
-          <div>
-            <h1>
-              KHATA SANITARY
-              INDUSTRIES
-            </h1>
+    <div className="invoice-container">
 
-            <p>
-              Delhi NCR, India
-            </p>
+      <div className="invoice-header">
 
-            <p>
-              GSTIN:
-              22ABCDE1234F1Z5
-            </p>
-
-            <p>
-              Phone:
-              +91 9999999999
-            </p>
-
-            <p>
-              Account No:
-              1234567890
-            </p>
-
-            <p>
-              IFSC:
-              HDFC0001234
-            </p>
-          </div>
-
-          <div className="company-logo">
-
-</div>
+        <div className="header-logo">
+          <img src="logo.png" alt="Khata Logo" />
         </div>
 
-        <hr />
 
-        <div className="invoice-title">
-          <h2>TAX INVOICE</h2>
+        <div className="header-company">
+
+          <h1>
+            KHATA SANITARY INDUSTRIES
+          </h1>
+
+          <p>
+            Delhi NCR, India
+          </p>
+
+          <p>
+            GSTIN:
+            22ABCDE1234F1Z5
+          </p>
+
+          <p>
+            Phone:
+            +91 9999999999
+          </p>
+
         </div>
 
-        <div className="invoice-info">
+      </div>
 
-  <div className="info-card">
+      <div className="invoice-heading">
+        TAX INVOICE
+      </div>
 
-    <h3>Invoice Details</h3>
+      <div className="invoice-meta">
 
-    <p>
-      <strong>Invoice No:</strong>{" "}
-      {invoiceNumber}
-    </p>
+        <div>
+          <strong>
+            Invoice No:
+          </strong>{" "}
+          {invoiceNumber}
+        </div>
 
-    <p>
-      <strong>Date:</strong>{" "}
-      {generatedAt}
-    </p>
+        <div>
+          <strong>
+            Date:
+          </strong>{" "}
+          {generatedAt}
+        </div>
 
-  </div>
+      </div>
 
-  <div className="info-card">
+      <div className="buyer-section">
 
-    <h3>Buyer Details</h3>
+        <h3>
+          Details of Buyer
+        </h3>
 
-    <p>{buyer?.buyerName}</p>
+        <p>
+          {buyer?.buyerName}
+        </p>
 
-    <p>{buyer?.phoneNumber}</p>
+        <p>
+          {buyer?.address}
+        </p>
 
-    <p>{buyer?.address}</p>
+        <p>
+          {buyer?.phoneNumber}
+        </p>
 
-    <p>
-      Discount:{" "}
-      {buyer?.discountPercentage || 0}%
-    </p>
+        <p>
+          Discount:{" "}
+          {buyer?.discountPercentage || 0}%
+        </p>
 
-  </div>
+      </div>
 
-</div>
+      <div className="table-wrapper">
 
         <table className="invoice-table">
 
           <thead>
+
             <tr>
+
               <th>
                 Product
               </th>
 
-              <th>Qty</th>
+              <th>
+                Qty
+              </th>
 
-              <th>Rate</th>
+              <th>
+                Rate
+              </th>
 
               <th>
                 Amount
               </th>
+
             </tr>
+
           </thead>
 
           <tbody>
+
             {products.map(
               (product) => (
+
                 <tr
-                  key={
-                    product.id
-                  }
+                  key={product.id}
                 >
+
                   <td>
-                    {
-                      product.name
-                    }
+                    {product.name}
                   </td>
 
                   <td>
-                    {
-                      product.quantity
-                    }
+                    {product.quantity}
                   </td>
 
                   <td>
-                    ₹{" "}
-                    {
-                      product.price
-                    }
+                    ₹ {product.price}
                   </td>
 
                   <td>
@@ -334,133 +304,135 @@ if (!invoiceId) {
                     {(
                       product.price *
                       product.quantity
-                    ).toFixed(
-                      2
-                    )}
+                    ).toFixed(2)}
                   </td>
+
                 </tr>
+
               )
             )}
+
           </tbody>
 
         </table>
 
-        <div className="summary-section">
-          <div className="summary-card">
+      </div>
 
-            <p>
-              <span>
-                Subtotal
-              </span>
+      <div className="totals-section">
 
-              <span>
-                ₹{" "}
-                {subtotal.toFixed(
-                  2
-                )}
-              </span>
-            </p>
-
-            <p>
-              <span>
-                Discount (
-                {
-                  discountPercentage
-                }
-                %)
-              </span>
-
-              <span>
-                - ₹{" "}
-                {discountAmount.toFixed(
-                  2
-                )}
-              </span>
-            </p>
-
-            <p>
-              <span>
-                GST (5%)
-              </span>
-
-              <span>
-                ₹{" "}
-                {gstAmount.toFixed(
-                  2
-                )}
-              </span>
-            </p>
-
-            <hr />
-
-            <p className="grand-total">
-              <span>
-                Grand Total
-              </span>
-
-              <span>
-                ₹{" "}
-                {grandTotal.toFixed(
-                  2
-                )}
-              </span>
-            </p>
-
-          </div>
-        </div>
-
-        <div className="signatures">
+        <div className="totals-table">
 
           <div>
-            <div className="signature-box"></div>
 
-            <p>
-              Buyer Signature
-            </p>
+            <span>
+              Subtotal
+            </span>
+
+            <span>
+              ₹ {subtotal.toFixed(2)}
+            </span>
+
           </div>
 
           <div>
-            <div className="signature-box"></div>
 
-            <p>
-              Authorized Signature
-            </p>
+            <span>
+              Discount
+            </span>
+
+            <span>
+              ₹ {discountAmount.toFixed(2)}
+            </span>
+
           </div>
 
-        </div>
+          <div>
 
-        <div className="invoice-footer">
-          <p>
-            Thank you for
-            doing business
-            with Khata
-            Sanitary
-            Industries.
-          </p>
-        </div>
+            <span>
+              GST (5%)
+            </span>
 
-        <div className="invoice-actions">
+            <span>
+              ₹ {gstAmount.toFixed(2)}
+            </span>
 
-          <button
-            className="download-btn"
-            onClick={() =>
-              window.print()
-            }
-          >
-            Print Bill
-          </button>
+          </div>
 
-          <button
-            className="download-btn"
-            onClick={handleDownloadPdf}
-            disabled={saving}
-          >
-            {saving ? "Saving Invoice..." : "Download PDF"}
-          </button>
+          <div className="grand-row">
+
+            <span>
+              GRAND TOTAL
+            </span>
+
+            <span>
+              ₹ {grandTotal.toFixed(2)}
+            </span>
+
+          </div>
 
         </div>
 
       </div>
+
+      <div className="signatures">
+
+        <div>
+
+          <div className="signature-line"></div>
+
+          <p>
+            Buyer Signature
+          </p>
+
+        </div>
+
+        <div>
+
+          <div className="signature-line"></div>
+
+          <p>
+            Authorized Signature
+          </p>
+
+        </div>
+
+      </div>
+
+      <div className="invoice-footer">
+
+        Thank you for doing
+        business with
+        Khata Sanitary Industries.
+
+      </div>
+
+      <div className="invoice-actions">
+
+        <button
+          className="download-btn"
+          onClick={() =>
+            window.print()
+          }
+        >
+          Print Bill
+        </button>
+
+        <button
+          className="download-btn"
+          onClick={handleDownloadPdf}
+          disabled={saving}
+        >
+          {
+            saving
+              ? "Saving Invoice..."
+              : "Download PDF"
+          }
+        </button>
+
+      </div>
+
     </div>
-  );
+
+  </div>
+);
 }
