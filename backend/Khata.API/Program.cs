@@ -29,19 +29,6 @@ app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseStaticFiles(
-    new StaticFileOptions
-    {
-        FileProvider =
-            new PhysicalFileProvider(
-                Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    "Uploads"
-                )
-            ),
-        RequestPath =
-            "/uploads"
-    });
 app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
