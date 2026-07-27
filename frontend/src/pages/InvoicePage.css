@@ -132,6 +132,13 @@
     padding: 0;
     background: white;
   }
+  .invoice-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 
   .invoice-container {
     box-shadow: none;

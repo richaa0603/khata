@@ -41,3 +41,17 @@ export const getShopkeeperInvoices =
 
     return response.data;
 };
+
+export const downloadInvoicePdf =
+  async (invoiceId) => {
+
+    const response =
+      await axios.get(
+        `${API_URL}/${invoiceId}/pdf`,
+        {
+          responseType: "blob",
+        }
+      );
+
+    return response.data;
+};
