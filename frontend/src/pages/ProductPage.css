@@ -86,3 +86,19 @@
   font-size: 16px;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    width: 100%;
+  }
+
+  .summary-bar {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

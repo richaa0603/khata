@@ -206,3 +206,19 @@
 .manage-profile-link button:hover {
   color: white;
 }
+
+@media (max-width: 768px) {
+
+  .shopkeepers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shopkeeper-card {
+    width: 100%;
+  }
+
+  .shopkeeper-photo {
+    width: 100px;
+    height: 100px;
+  }
+}

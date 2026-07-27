@@ -72,3 +72,14 @@
 .add-card h2 {
   font-size: 4rem;
 }
+
+@media (max-width: 768px) {
+
+  .buyers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .buyer-card {
+    width: 100%;
+  }
+}

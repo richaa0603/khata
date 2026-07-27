@@ -144,3 +144,52 @@
     box-shadow: none;
   }
 }
+@media (max-width: 768px) {
+
+  .invoice-container {
+    padding: 15px;
+  }
+
+  .invoice-header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .invoice-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .invoice-actions {
+    flex-direction: column;
+  }
+
+  .download-btn {
+    width: 100%;
+  }
+
+  .signatures {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+.invoice-table {
+  display: block;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+
+  .history-card {
+    width: 100%;
+  }
+
+  .history-page {
+    padding: 15px;
+  }
+
+  .totals-section {
+    flex-direction: column;
+  }
+}
