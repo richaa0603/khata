@@ -71,39 +71,6 @@ export default function Home() {
                 Continue
               </button>
 
-              <div className="quick-links">
-                <button
-                  className="link-btn"
-                  onClick={() =>
-                    navigate(
-                      `/${shopkeeper.name.toLowerCase()}/history`,
-                      {
-                        state: {
-                          shopkeeper,
-                        },
-                      }
-                    )
-                  }
-                >
-                  History
-                </button>
-
-                <button
-                  className="link-btn"
-                  onClick={() =>
-                    navigate(
-                      `/${shopkeeper.name.toLowerCase()}/manage`,
-                      {
-                        state: {
-                          shopkeeper,
-                        },
-                      }
-                    )
-                  }
-                >
-                  Manage
-                </button>
-              </div>
             </div>
           ))}
         </div>
