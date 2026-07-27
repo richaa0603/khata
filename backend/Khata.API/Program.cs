@@ -1,5 +1,6 @@
 using Khata.API.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,20 @@ app.UseCors("AllowFrontend");
 
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseStaticFiles(
+    new StaticFileOptions
+    {
+        FileProvider =
+            new PhysicalFileProvider(
+                Path.Combine(
+                    Directory.GetCurrentDirectory(),
+                    "Uploads"
+                )
+            ),
+        RequestPath =
+            "/uploads"
+    });
 app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
@@ -34,4 +49,7 @@ using (var scope = app.Services.CreateScope())
         scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await DbSeeder.SeedAsync(context);
 }
+
+QuestPDF.Settings.License =
+    QuestPDF.Infrastructure.LicenseType.Community;
 app.Run();
