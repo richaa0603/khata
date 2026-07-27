@@ -17,7 +17,7 @@ export default function ManageShopkeepers() {
   const loadShopkeepers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5228/api/shopkeepers"
+        `${import.meta.env.VITE_API_URL}/shopkeepers`
       );
 
       setShopkeepers(response.data);
@@ -31,7 +31,7 @@ export default function ManageShopkeepers() {
 
     try {
       await axios.post(
-        "http://localhost:5228/api/shopkeepers",
+        `${import.meta.env.VITE_API_URL}/shopkeepers`,
         {
           name,
           photoUrl,

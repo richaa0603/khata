@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API_URL =
   `${import.meta.env.VITE_API_URL}/buyers`;
 
@@ -9,7 +10,7 @@ export const getBuyers = async () => {
 
 export const getBuyerById = async (buyerId) => {
   const response = await axios.get(
-    `http://localhost:5228/api/buyers/${buyerId}`
+    `${API_URL}/${buyerId}`
   );
 
   return response.data;

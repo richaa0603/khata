@@ -22,7 +22,7 @@ export default function ManagePricing() {
   const loadPage = async () => {
     try {
       const buyerResponse = await axios.get(
-        `http://localhost:5228/api/buyers`
+        `${import.meta.env.VITE_API_URL}/buyers`
       );
 
       const selectedBuyer =

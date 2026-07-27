@@ -24,10 +24,14 @@ export default function InvoicePage() {
     useState(null);
 
   const [saved, setSaved] =
-    useState(false);
+  useState(false);
 
-  const [invoiceId, setInvoiceId] =
-    useState(null);
+const [saving, setSaving] =
+  useState(true);
+
+const [invoiceId, setInvoiceId] =
+  useState(null);
+
 
   useEffect(() => {
     if (buyerId) {
@@ -89,75 +93,80 @@ export default function InvoicePage() {
   const grandTotal =
     amountAfterDiscount +
     gstAmount;
+const storeInvoice = async () => {
+  try {
 
-  const storeInvoice =
-    async () => {
-      try {
-        const payload = {
-          buyerId,
+    setSaving(true);
 
-          shopkeeperId,
+    const payload = {
+      buyerId,
+      shopkeeperId,
+      subtotal,
+      discountAmount,
+      gstAmount,
+      grandTotal,
 
-          subtotal,
-
-          discountAmount,
-
-          gstAmount,
-
-          grandTotal,
-
-          items: products.map(
-            (product) => ({
-              productId:
-                product.id,
-
-              productName:
-                product.name,
-
-              rate:
-                product.price,
-
-              quantity:
-                product.quantity,
-
-              amount:
-                product.price *
-                product.quantity,
-            })
-          ),
-        };
-
-        const result =
-          await saveInvoice(
-            payload
-          );
-
-        setInvoiceId(result);
-
-        setSaved(true);
-
-        console.log(
-          "Invoice saved:",
-          result
-        );
-      } catch (error) {
-        console.error(
-          "Invoice save failed:",
-          error.response?.data ||
-            error.message ||
-            error
-        );
-      }
+      items: products.map((product) => ({
+        productId: product.id,
+        productName: product.name,
+        rate: product.price,
+        quantity: product.quantity,
+        amount:
+          product.price *
+          product.quantity,
+      })),
     };
+
+    console.log(
+      "Saving invoice:",
+      payload
+    );
+
+    const result =
+      await saveInvoice(payload);
+
+    console.log(
+      "Saved Invoice ID:",
+      result
+    );
+
+    setInvoiceId(result);
+
+    setSaved(true);
+
+  } catch (error) {
+
+    console.error(
+      "Invoice save failed:",
+      error
+    );
+
+  } finally {
+
+    setSaving(false);
+  }
+};
 
   const handleDownloadPdf =
     async () => {
-      if (!invoiceId) {
-        alert(
-          "Invoice not saved yet."
-        );
-        return;
-      }
+      console.log(
+  "invoiceId:",
+  invoiceId
+);
+
+if (saving) {
+  alert(
+    "Invoice is still being saved."
+  );
+  return;
+}
+
+if (!invoiceId) {
+  alert(
+    "Invoice save failed."
+  );
+  return;
+}
 
       try {
         const blob =
@@ -479,13 +488,16 @@ export default function InvoicePage() {
           </button>
 
           <button
-            className="download-btn"
-            onClick={
-              handleDownloadPdf
-            }
-          >
-            Download PDF
-          </button>
+  className="download-btn"
+  onClick={handleDownloadPdf}
+  disabled={saving}
+>
+  {
+    saving
+      ? "Saving Invoice..."
+      : "Download PDF"
+  }
+</button>
 
         </div>
 
