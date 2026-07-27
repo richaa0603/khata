@@ -13,8 +13,7 @@ export default function WelcomePage() {
 
   const { state } = useLocation();
 
-  const shopkeeper =
-    state?.shopkeeper;
+  const shopkeeper = state?.shopkeeper;
 
   const username =
     user?.charAt(0).toUpperCase() +
@@ -22,24 +21,25 @@ export default function WelcomePage() {
 
   return (
     <div className="welcome-container">
-      <div className="welcome-card">
 
-        <div className="logged-in-user">
-          👤 Logged in as{" "}
-          <strong>{username}</strong>
-        </div>
+      <h1 className="welcome-title">
+        Welcome, {username}
+      </h1>
 
-        <h2>Welcome, {username}</h2>
+      <div className="welcome-content">
 
-        <div className="action-buttons">
+        <img
+  src="/welcome.jpg"
+  alt="Welcome"
+  className="welcome-image"
+/>
+        <div className="button-section">
 
           <button
             className="primary-btn"
             onClick={() =>
               navigate("/buyers", {
-                state: {
-                  shopkeeper,
-                },
+                state: { shopkeeper },
               })
             }
           >
@@ -60,6 +60,7 @@ export default function WelcomePage() {
         </div>
 
       </div>
+
     </div>
   );
 }
