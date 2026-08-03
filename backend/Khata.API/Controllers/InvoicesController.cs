@@ -23,35 +23,18 @@ public class InvoicesController : ControllerBase
     {
         var invoice = new Invoice
 {
-    InvoiceNumber =
-        $"KH-{DateTime.UtcNow.Ticks}",
-
-    BuyerId =
-        request.BuyerId,
-
-    ShopkeeperId =
-        request.ShopkeeperId,
-
-    InvoiceDate =
-        DateTime.UtcNow,
-
-    SubTotal =
-        request.Subtotal,
-
-    DiscountAmount =
-        request.DiscountAmount,
-
-    GSTAmount =
-        request.GstAmount,
-
-    GrandTotal =
-        request.GrandTotal
+    InvoiceNumber = $"KH-{DateTime.UtcNow.Ticks}",
+    BuyerId =request.BuyerId,
+    ShopkeeperId =request.ShopkeeperId,
+    InvoiceDate = DateTime.UtcNow,
+    SubTotal = request.Subtotal,
+    DiscountAmount = request.DiscountAmount,
+    GSTAmount = request.GstAmount,
+    GrandTotal =request.GrandTotal
 };
 
         _context.Invoices.Add(invoice);
-
         await _context.SaveChangesAsync();
-
         foreach (var item in request.Items)
         {
             _context.InvoiceItems.Add(
@@ -90,23 +73,6 @@ public async Task<IActionResult>
             x => x.InvoiceDate)
         .ToListAsync();
     return Ok(invoices);
-}
-[HttpGet("{invoiceId}")]
-public async Task<IActionResult>
-GetInvoice(int invoiceId)
-{
-    var invoice =
-        await _context.Invoices
-            .Include(x => x.Buyer)
-            .Include(x => x.InvoiceItems)
-            .ThenInclude(x => x.Product)
-            .FirstOrDefaultAsync(
-                x => x.Id == invoiceId);
-
-    if (invoice == null)
-        return NotFound();
-
-    return Ok(invoice);
 }
 [HttpGet("{invoiceId}/pdf")]
 public async Task<IActionResult> DownloadPdf(
